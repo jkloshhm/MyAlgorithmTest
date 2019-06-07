@@ -13,8 +13,8 @@ public class MyClass {
 
     public static void main(String[] args) {
         int[] a = new int[]{4, 1, 2, 1, 5};
-        System.out.println(twoSum(a,9)[0]);
-        System.out.println(twoSum(a,9)[1]);
+        System.out.println(twoSum(a, 9)[0]);
+        System.out.println(twoSum(a, 9)[1]);
     }
 
 
@@ -120,7 +120,7 @@ public class MyClass {
             return digits;
         }
 
-        for (int i = digits.length-1; i >= 0; i--) {
+        for (int i = digits.length - 1; i >= 0; i--) {
             if (digits[i] == 9) {
                 digits[i] = 0;
             } else {
@@ -141,6 +141,36 @@ public class MyClass {
         return digits;
     }
 
+
+    /**
+     * 给定一个数组 nums，编写一个函数将所有 0 移动到数组的末尾，同时保持非零元素的相对顺序。
+     * <p>
+     * 示例:
+     * <p>
+     * 输入: [0,1,0,3,12]
+     * 输出: [1,3,12,0,0]
+     * 说明:
+     * <p>
+     * 1、必须在原数组上操作，不能拷贝额外的数组。
+     * 2、尽量减少操作次数。
+     */
+
+    public static int[] moveZeroes(int[] nums) {
+
+        if (nums.length < 1) {
+            return nums;
+        }
+
+        for (int i = nums.length - 1; i >= 0; i--) {
+            if (nums[i] == 9) {
+                nums[i] = 0;
+            } else {
+                nums[i] = nums[i] + 1;
+                return nums;
+            }
+        }
+        return nums;
+    }
 
 
 }
