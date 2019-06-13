@@ -195,7 +195,6 @@ public class MyClass {
      * 如果 nums1 的大小比 nums2 小很多，哪种方法更优？
      * 如果 nums2 的元素存储在磁盘上，磁盘内存是有限的，并且你不能一次加载所有的元素到内存中，你该怎么办？
      */
-
     private static int[] intersect(int[] nums1, int[] nums2) {
         List<Integer> list = new ArrayList<>();
         if (nums1.length < nums2.length) {
@@ -227,6 +226,30 @@ public class MyClass {
             a[i] = list.get(i);
         }
 
+        return a;
+    }
+
+
+    /**
+     *  求众数
+     * 给定一个大小为 n 的数组，找到其中的众数。众数是指在数组中出现次数大于 ⌊ n/2 ⌋ 的元素。
+     *
+     * 你可以假设数组是非空的，并且给定的数组总是存在众数。
+     *
+     * 示例 1:
+     *
+     * 输入: [3,2,3]
+     * 输出: 3
+     * 示例 2:
+     *
+     * 输入: [2,2,1,1,1,2,2]
+     * 输出: 2
+     */
+
+    public int majorityElement(int[] nums) {
+
+        //先给数组排序，排完序就是最中间那个数。
+        int a =0;
         return a;
     }
 }
