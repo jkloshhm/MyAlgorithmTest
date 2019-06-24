@@ -13,10 +13,12 @@ import java.util.List;
 public class MyClass {
 
     public static void main(String[] args) {
-        int[] a = new int[]{5, 6};
-        int[] b = new int[]{5, 5};
+        int[] a = new int[]{3,2,3};
+        int[] b = new int[]{2,2,1,1,1,2,2};
         //System.out.println(Arrays.toString(moveZeroes(a)));
         //System.out.println(twoSum(a, 9)[1]);
+        System.out.println(majorityElement(a));
+        System.out.println(majorityElement(b));
         System.out.println(Arrays.toString(intersect(a, b)));
     }
 
@@ -246,10 +248,22 @@ public class MyClass {
      * 输出: 2
      */
 
-    public int majorityElement(int[] nums) {
+    public static int majorityElement(int[] nums) {
 
-        //先给数组排序，排完序就是最中间那个数。
-        int a =0;
-        return a;
+        int count = 0;
+        int num = nums[0];
+        for(int i = 0; i < nums.length; i++){
+            if(num == nums[i]){
+                count++;
+            }else{
+                count--;
+                if(count == 0){
+                    num = nums[i];
+                    count++;
+                }
+
+            }
+        }
+        return num;
     }
 }
