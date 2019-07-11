@@ -13,13 +13,13 @@ import java.util.List;
 public class MyClass {
 
     public static void main(String[] args) {
-        int[] a = new int[]{3,2,3};
-        int[] b = new int[]{2,2,1,1,1,2,2};
+        int[] a = new int[]{1, 2, 3, 0, 0, 0, 0};
+        int[] b = new int[]{1, 2, 5, 6};
         //System.out.println(Arrays.toString(moveZeroes(a)));
         //System.out.println(twoSum(a, 9)[1]);
-        System.out.println(majorityElement(a));
-        System.out.println(majorityElement(b));
-        System.out.println(Arrays.toString(intersect(a, b)));
+        //System.out.println(Arrays.toString(intersect(a, b)));
+        majorityElement(a);
+        merge(a, 3, b, 4);
     }
 
 
@@ -201,7 +201,7 @@ public class MyClass {
         List<Integer> list = new ArrayList<>();
         if (nums1.length < nums2.length) {
             for (int i = 0; i < nums1.length; i++) {
-                int k =0;
+                int k = 0;
                 for (int j = k; j < nums2.length; j++) {
                     if (nums1[i] == nums2[j]) {
                         list.add(nums1[i]);
@@ -233,37 +233,66 @@ public class MyClass {
 
 
     /**
-     *  求众数
+     * 求众数
      * 给定一个大小为 n 的数组，找到其中的众数。众数是指在数组中出现次数大于 ⌊ n/2 ⌋ 的元素。
-     *
+     * <p>
      * 你可以假设数组是非空的，并且给定的数组总是存在众数。
-     *
+     * <p>
      * 示例 1:
-     *
+     * <p>
      * 输入: [3,2,3]
      * 输出: 3
      * 示例 2:
-     *
+     * <p>
      * 输入: [2,2,1,1,1,2,2]
      * 输出: 2
      */
 
-    public static int majorityElement(int[] nums) {
+    public static void majorityElement(int[] nums) {
 
-        int count = 0;
-        int num = nums[0];
-        for(int i = 0; i < nums.length; i++){
-            if(num == nums[i]){
-                count++;
-            }else{
-                count--;
-                if(count == 0){
-                    num = nums[i];
-                    count++;
-                }
+        //先给数组排序，排完序就是最中间那个数。
+        Arrays.sort(nums);
+        int a = nums[nums.length / 2];
+        System.out.println(a);
+    }
 
+    /**
+     * 《合并两个有序数组》
+     * 给定两个有序整数数组 nums1 和 nums2，将 nums2 合并到 nums1 中，使得 num1 成为一个有序数组。
+     * <p>
+     * 说明:
+     * <p>
+     * 初始化 nums1 和 nums2 的元素数量分别为 m 和 n。
+     * 你可以假设 nums1 有足够的空间（空间大小大于或等于 m + n）来保存 nums2 中的元素。
+     * 示例:
+     * <p>
+     * 输入:
+     * nums1 = [1,2,3,0,0,0], m = 3
+     * nums2 = [2,5,6],       n = 3
+     * <p>
+     * 输出: [1,2,2,3,5,6]
+     */
+
+    public static void merge(int[] nums1, int m, int[] nums2, int n) {
+        int k = m + n - 1;
+        int i = m - 1;
+        int j = n - 1;
+        while (i >= 0 && j >= 0) {
+            if (nums1[i] > nums2[j]) {
+                nums1[k] = nums1[i];
+                i--;
+            } else {
+                nums1[k] = nums2[j];
+                j--;
             }
+            k--;
         }
-        return num;
+
+        while (j >= 0) {
+            nums1[k] = nums2[j];
+            k--;
+            j--;
+        }
+        System.out.println(Arrays.toString(nums1));
     }
 }
