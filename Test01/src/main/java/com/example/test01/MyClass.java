@@ -13,13 +13,26 @@ import java.util.List;
 public class MyClass {
 
     public static void main(String[] args) {
-        int[] a = new int[]{1, 2, 3, 0, 0, 0, 0};
+        int[] a = new int[]{1, 2, 3, 6, 7, 8, 8};
         int[] b = new int[]{1, 2, 5, 6};
+        int[][] matrix = {
+                {1, 4, 7, 11, 15},
+                {2, 5, 8, 12, 19},
+                {3, 6, 9, 16, 22},
+                {10, 13, 14, 17, 24},
+                {18, 21, 23, 26, 30},
+        };
         //System.out.println(Arrays.toString(moveZeroes(a)));
         //System.out.println(twoSum(a, 9)[1]);
-        //System.out.println(Arrays.toString(intersect(a, b)));
-        majorityElement(a);
-        merge(a, 3, b, 4);
+        System.out.println(Arrays.toString(intersect(a, b)));
+        System.out.println(Arrays.toString(intersect1(a, b)));
+        //majorityElement(a);
+        //merge(a, 3, b, 4);
+
+        //System.out.println(searchMatrix(matrix, 5));
+        //System.out.println(searchMatrix(matrix, 27));
+        //System.out.println(matrix.length);
+        //System.out.println(matrix[0].length);
     }
 
 
@@ -198,37 +211,54 @@ public class MyClass {
      * 如果 nums2 的元素存储在磁盘上，磁盘内存是有限的，并且你不能一次加载所有的元素到内存中，你该怎么办？
      */
     private static int[] intersect(int[] nums1, int[] nums2) {
+        int length1 = nums1.length;
+        int length2 = nums2.length;
+        boolean[] booleansNums2 = new boolean[length2];
         List<Integer> list = new ArrayList<>();
-        if (nums1.length < nums2.length) {
-            for (int i = 0; i < nums1.length; i++) {
-                int k = 0;
-                for (int j = k; j < nums2.length; j++) {
-                    if (nums1[i] == nums2[j]) {
-                        list.add(nums1[i]);
-                        break;
-                    } else {
-                        j++;
-                    }
-                }
-            }
-        } else {
-            for (int i = 0; i < nums2.length; i++) {
-                for (int j = 0; j < nums1.length; j++) {
-                    if (nums2[i] == nums1[j]) {
-                        list.add(nums2[i]);
-                    } else {
-                        j++;
-                    }
+        for (int i= 0; i<length1;i++){
+            for (int j = 0; j<length2;j++){
+                if (nums1[i] == nums2[j] && !booleansNums2[j]){
+                    list.add(nums2[j]);
+                    booleansNums2[j] = true;
+                    break;
                 }
             }
         }
+
 
         int[] a = new int[list.size()];
         for (int i = 0; i < list.size(); i++) {
             a[i] = list.get(i);
         }
-
         return a;
+    }
+
+
+    private static int[] intersect1(int[] nums1, int[] nums2) {
+        long start = System.currentTimeMillis();
+        int len1 = nums1.length;
+        int len2 = nums2.length;
+        boolean[] bl = new boolean[len2];
+        ArrayList<Integer> al = new ArrayList<Integer>();
+        for (int i = 0; i < len1; i++) {
+            for (int j = 0; j < len2; j++) {
+                if (nums1[i] == nums2[j] && !bl[j]) {
+                    al.add(nums1[i]);
+                    bl[j] = true;
+                    break;
+                }
+            }
+        }
+        int[] in = new int[al.size()];
+        int e = 0;
+        for (int i : al) {
+            in[e++] = i;
+        }
+
+        long end = System.currentTimeMillis();
+        System.out.println(end - start);
+        return in;
+
     }
 
 
@@ -299,27 +329,72 @@ public class MyClass {
     /**
      * 搜索二维矩阵 II
      * 编写一个高效的算法来搜索 m x n 矩阵 matrix 中的一个目标值 target。该矩阵具有以下特性：
-     *
+     * <p>
      * 每行的元素从左到右升序排列。
      * 每列的元素从上到下升序排列。
      * 示例:
-     *
+     * <p>
      * 现有矩阵 matrix 如下：
-     *
+     * <p>
      * [
-     *   [1,   4,  7, 11, 15],
-     *   [2,   5,  8, 12, 19],
-     *   [3,   6,  9, 16, 22],
-     *   [10, 13, 14, 17, 24],
-     *   [18, 21, 23, 26, 30]
+     * [1,   4,  7, 11, 15],
+     * [2,   5,  8, 12, 19],
+     * [3,   6,  9, 16, 22],
+     * [10, 13, 14, 17, 24],
+     * [18, 21, 23, 26, 30]
      * ]
      * 给定 target = 5，返回 true。
-     *
+     * <p>
      * 给定 target = 20，返回 false。
      */
     public static boolean searchMatrix(int[][] matrix, int target) {
 
+        //思路：从二维数组右上角开始，向左都依次变小，向下都依次变大, 所以从右上角开始遍历
+
+        if (matrix.length == 0) {
+            return false;
+        }
+        //数组的行数
+        int m = matrix.length;
+        //第一行的长度，即二维数组的列数
+        int n = matrix[0].length;
+        int i = 0;
+        int j = n - 1;
+
+        while (i < m && j >= 0) {
+            if (matrix[i][j] == target) {
+                return true;
+            } else if (matrix[i][j] > target) {
+                j--;
+            } else {
+                i++;
+            }
+        }
         return false;
     }
+
+    /**
+     * 两个数组的交集 II
+     * 给定两个数组，编写一个函数来计算它们的交集。
+     *
+     * 示例 1:
+     *
+     * 输入: nums1 = [1,2,2,1], nums2 = [2,2]
+     * 输出: [2,2]
+     * 示例 2:
+     *
+     * 输入: nums1 = [4,9,5], nums2 = [9,4,9,8,4]
+     * 输出: [4,9]
+     * 说明：
+     *
+     * 输出结果中每个元素出现的次数，应与元素在两个数组中出现的次数一致。
+     * 我们可以不考虑输出结果的顺序。
+     * 进阶:
+     *
+     * 如果给定的数组已经排好序呢？你将如何优化你的算法？
+     * 如果 nums1 的大小比 nums2 小很多，哪种方法更优？
+     * 如果 nums2 的元素存储在磁盘上，磁盘内存是有限的，并且你不能一次加载所有的元素到内存中，你该怎么办？
+     */
+
 
 }
