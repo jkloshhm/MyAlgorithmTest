@@ -33,6 +33,12 @@ public class MyClass {
         //System.out.println(searchMatrix(matrix, 27));
         //System.out.println(matrix.length);
         //System.out.println(matrix[0].length);
+        int[] c = new int[]{1, 1, 1, 2, 2, 3, 3, 5, 5, 5, 6};
+        int[] d = new int[]{7, 1, 5, 3, 6, 4};
+        removeDuplicates(c);
+        System.out.println(removeDuplicates(c));
+
+        maxProfit(d);
     }
 
 
@@ -215,9 +221,9 @@ public class MyClass {
         int length2 = nums2.length;
         boolean[] booleansNums2 = new boolean[length2];
         List<Integer> list = new ArrayList<>();
-        for (int i= 0; i<length1;i++){
-            for (int j = 0; j<length2;j++){
-                if (nums1[i] == nums2[j] && !booleansNums2[j]){
+        for (int i = 0; i < length1; i++) {
+            for (int j = 0; j < length2; j++) {
+                if (nums1[i] == nums2[j] && !booleansNums2[j]) {
                     list.add(nums2[j]);
                     booleansNums2[j] = true;
                     break;
@@ -373,28 +379,94 @@ public class MyClass {
         return false;
     }
 
+
     /**
-     * 两个数组的交集 II
-     * 给定两个数组，编写一个函数来计算它们的交集。
-     *
+     * 从排序数组中删除重复项
+     * 给定一个排序数组，你需要在原地删除重复出现的元素，使得每个元素只出现一次，返回移除后数组的新长度。
+     * <p>
+     * 不要使用额外的数组空间，你必须在原地修改输入数组并在使用 O(1) 额外空间的条件下完成。
+     * <p>
      * 示例 1:
-     *
-     * 输入: nums1 = [1,2,2,1], nums2 = [2,2]
-     * 输出: [2,2]
+     * <p>
+     * 给定数组 nums = [1,1,2,2,3],
+     * <p>
+     * 函数应该返回新的长度 2, 并且原数组 nums 的前两个元素被修改为 1, 2。
+     * <p>
+     * 你不需要考虑数组中超出新长度后面的元素。
      * 示例 2:
-     *
-     * 输入: nums1 = [4,9,5], nums2 = [9,4,9,8,4]
-     * 输出: [4,9]
-     * 说明：
-     *
-     * 输出结果中每个元素出现的次数，应与元素在两个数组中出现的次数一致。
-     * 我们可以不考虑输出结果的顺序。
-     * 进阶:
-     *
-     * 如果给定的数组已经排好序呢？你将如何优化你的算法？
-     * 如果 nums1 的大小比 nums2 小很多，哪种方法更优？
-     * 如果 nums2 的元素存储在磁盘上，磁盘内存是有限的，并且你不能一次加载所有的元素到内存中，你该怎么办？
+     * <p>
+     * 给定 nums = [0,0,1,1,1,2,2,3,3,4],
+     * <p>
+     * 函数应该返回新的长度 5, 并且原数组 nums 的前五个元素被修改为 0, 1, 2, 3, 4。
+     * <p>
+     * 你不需要考虑数组中超出新长度后面的元素。
+     * 说明:
+     * <p>
+     * 为什么返回数值是整数，但输出的答案是数组呢?
+     * <p>
+     * 请注意，输入数组是以“引用”方式传递的，这意味着在函数里修改输入数组对于调用者是可见的。
+     * <p>
+     * 你可以想象内部操作如下:
+     * <p>
+     * // nums 是以“引用”方式传递的。也就是说，不对实参做任何拷贝
+     * int len = removeDuplicates(nums);
+     * <p>
+     * // 在函数里修改输入数组对于调用者是可见的。
+     * // 根据你的函数返回的长度, 它会打印出数组中该长度范围内的所有元素。
+     * for (int i = 0; i < len; i++) {
+     * print(nums[i]);
+     * }
      */
+    public static int removeDuplicates(int[] nums) {
+        int k = 0;
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] != nums[k]) {
+                k++;
+                nums[k] = nums[i];
+            }
+            if (nums[nums.length - 1] == nums[k]) {
+                break;
+            }
+        }
+        return ++k;
+    }
 
+    /**
+     * 买卖股票的最佳时机 II
+     * 给定一个数组，它的第 i 个元素是一支给定股票第 i 天的价格。
+     * <p>
+     * 设计一个算法来计算你所能获取的最大利润。你可以尽可能地完成更多的交易（多次买卖一支股票）。
+     * <p>
+     * 注意：你不能同时参与多笔交易（你必须在再次购买前出售掉之前的股票）。
+     * <p>
+     * 示例 1:
+     * <p>
+     * 输入: [7,1,5,3,6,4]
+     * 输出: 7
+     * 解释: 在第 2 天（股票价格 = 1）的时候买入，在第 3 天（股票价格 = 5）的时候卖出, 这笔交易所能获得利润 = 5-1 = 4 。
+     * 随后，在第 4 天（股票价格 = 3）的时候买入，在第 5 天（股票价格 = 6）的时候卖出, 这笔交易所能获得利润 = 6-3 = 3 。
+     * 示例 2:
+     * <p>
+     * 输入: [1,2,3,4,5]
+     * 输出: 4
+     * 解释: 在第 1 天（股票价格 = 1）的时候买入，在第 5 天 （股票价格 = 5）的时候卖出, 这笔交易所能获得利润 = 5-1 = 4 。
+     * 注意你不能在第 1 天和第 2 天接连购买股票，之后再将它们卖出。
+     * 因为这样属于同时参与了多笔交易，你必须在再次购买前出售掉之前的股票。
+     * 示例 3:
+     * <p>
+     * 输入: [7,6,4,3,1]
+     * 输出: 0
+     * 解释: 在这种情况下, 没有交易完成, 所以最大利润为 0。
+     */
+    public static int maxProfit(int[] prices) {
 
+        int profit = 0;
+        for (int i = 0, j = 1; j < prices.length; j++) {
+            if (prices[j] > prices[i]) {
+                profit += prices[j] - prices[i];
+            }
+            i++;
+        }
+        return profit;
+    }
 }
